@@ -8,8 +8,6 @@ import pyaudio
 import RPi.GPIO as GPIO
 from time import sleep
 
-
-
 def send_to_shell(command):
 	p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
 	(output, err) = p.communicate()
@@ -92,31 +90,38 @@ def wave(pin):
 	pwm=GPIO.PWM(pin, 50)
 	pwm.start(0)
 	SetAngle(90,pwm,pin)
-	pwm.stop()
-	GPIO.cleanup()
+
+#	GPIO.cleanup()
 	
 def SetAngle(angle,pwm,pin):
-	duty = angle / 18 + 2
+#	duty = angle / 18 + 2
+	duty = 30
 	GPIO.output(pin, True)
 	pwm.ChangeDutyCycle(duty)
 	sleep(1)
 	GPIO.output(pin, False)
 	pwm.ChangeDutyCycle(0)
 
+def blink(pin):
+	wave(pin)
+
 def main():
 	shell_script = 'test.sh'
-	pin = 18
+	pin = 12
 #	camera = picamera.PiCamera()
 #	take_a_picture(camera, 'example')
 ##	record_a_video(camera, 'examplevid')
 #	detect_faces('example', shell_script)
+
 ##	play_sound()
 #	text = 'Friend'
 #	speak(shell_script, text)
 ##	test_sound()
 #	audio_filename = '/home/pi/picamera/hello_world.wav'
 #	play_sound_omxplayer(shell_script, audio_filename)
-	wave(pin)
+#	wave(pin)
+	LEDpin = 33
+	blink(LEDpin)
 
 if __name__=='__main__':
 	main()
