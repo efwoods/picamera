@@ -3,7 +3,7 @@ import time
 import json
 import subprocess
 import pygame
-import wave
+from wave import *
 import pyaudio
 import RPi.GPIO as GPIO
 from time import sleep
@@ -84,44 +84,35 @@ def play_sound_omxplayer(shell_script, audio_filename):
 
 
 
-def wave(pin):
-	GPIO.setmode(GPIO.BOARD)
-	GPIO.setup(pin, GPIO.OUT)
-	pwm=GPIO.PWM(pin, 50)
-	pwm.start(0)
-	SetAngle(90,pwm,pin)
-
-#	GPIO.cleanup()
-	
-def SetAngle(angle,pwm,pin):
-#	duty = angle / 18 + 2
-	duty = 30
-	GPIO.output(pin, True)
-	pwm.ChangeDutyCycle(duty)
-	sleep(1)
-	GPIO.output(pin, False)
-	pwm.ChangeDutyCycle(0)
-
-def blink(pin):
-	wave(pin)
-
-def main():
-	shell_script = 'test.sh'
+def test_arm():
 	pin = 12
+	wave_arm(pin)
+
+def test_eye():
+	shell_script = 'test.sh'
 #	camera = picamera.PiCamera()
 #	take_a_picture(camera, 'example')
 ##	record_a_video(camera, 'examplevid')
 #	detect_faces('example', shell_script)
 
+def test_expression():
+	LEDpin = 33
+	blink(LEDpin)
+
+def test_ear():
+
+def test_voice():
 ##	play_sound()
 #	text = 'Friend'
 #	speak(shell_script, text)
 ##	test_sound()
 #	audio_filename = '/home/pi/picamera/hello_world.wav'
 #	play_sound_omxplayer(shell_script, audio_filename)
-#	wave(pin)
-	LEDpin = 33
-	blink(LEDpin)
+
+def blink(pin):
+	wave(pin)
+
+def main():
 
 if __name__=='__main__':
 	main()
